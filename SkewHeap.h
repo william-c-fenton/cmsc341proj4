@@ -94,12 +94,7 @@ private:
   Node *m_heap;          // Root pointer
   pri_fn priority;       // Current priority function
 
-  //************************************
-  //
-  // PRIVATE HELPER FUNCTIONS GO HERE!
-  //
-  //************************************
-
+  void inorderHelper(Node *curr) const;
 };
 
 #endif
