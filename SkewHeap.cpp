@@ -8,11 +8,11 @@ const SkewHeap& SkewHeap::operator=(const SkewHeap& rhs){
 }
 
 pri_fn SkewHeap::getPriFn() const {
-
+  return priority;
 }
 
 void SkewHeap::setPriFn(pri_fn pri){
-
+  priority = pri;
 }
 
 bool SkewHeap::empty() const{
@@ -40,8 +40,26 @@ void SkewHeap::removeTop(){
 }
 
 void SkewHeap::skewHeapMerge(SkewHeap& sh){
-
+  mergeHelper(m_heap, sh);
 } 
+
+void SkewHeap::mergeHelper(Node *curr, SkewHeap& sh){
+  //if either is empty, return other
+  //if curr is null, return sh
+  //else return curr
+
+  //make sure curr has higher priority
+  //if priority(curr) < priority(sh)
+  //swap(curr, sh)
+  
+  //switch left and right children of curr
+  //swap (curr->left, curr->right)
+
+  //merge curr left with sh, 
+  //new heap is left child of curr.
+
+  //don't have to do anything, all work is done to *this.
+}
 
 void SkewHeap::inorder() const {
   inorderHelper(m_heap);
