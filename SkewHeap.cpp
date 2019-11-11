@@ -66,6 +66,25 @@ void SkewHeap::inorderHelper(Node *curr) const{
 }
 
 void SkewHeap::dump() const{
-
+  dumpHelper(m_heap);
 }
 
+void SkewHeap::dumpHelper(Node *curr) const{
+  if(curr == nullptr)
+    return ;
+
+  string val;
+  if (curr->tagged_union == ISINT)
+    val = curr->data_int;
+  else
+    val = curr->data_string;
+  
+  cout << "ADDRESS: " << curr << endl;
+  cout << "VALUE: " << val << endl;
+  cout << "PRIORITY: " << priority(curr) << endl;
+  cout << "LEFT: " << curr->left << endl;
+  cout << "RIGHT: " << curr->right << endl;
+  cout << "------------------------" << endl;
+  dumpHelper(curr->left);
+  dumpHelper(curr->right);
+}

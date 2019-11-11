@@ -95,6 +95,7 @@ private:
   pri_fn priority;       // Current priority function
 
   void inorderHelper(Node *curr) const;
+  void dumpHelper(Node *curr) const;
 };
 
 #endif
