@@ -96,7 +96,7 @@ private:
 
   void inorderHelper(Node *curr) const;
   void dumpHelper(Node *curr) const;
-  void mergeHelper(Node* curr, SkewHeap& sh);
+  Node* mergeHelper(Node* curr, Node* srcCurr);
 };
 
 #endif

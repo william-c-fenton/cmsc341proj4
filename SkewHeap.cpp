@@ -1,4 +1,9 @@
 #include "SkewHeap.h"
+SkewHeap::SkewHeap(pri_fn pri){
+  m_heap = nullptr;
+  priority = pri;
+}
+
 SkewHeap::~SkewHeap(){
 
 }
@@ -24,11 +29,23 @@ bool SkewHeap::empty() const{
 }
 
 void SkewHeap::insert(string data){
-
+  Node* newNode = new Node(data);
+  if (!m_heap){
+    m_heap = newNode;
+  }
+  else{
+    m_heap = mergeHelper(m_heap, newNode);
+  }
 }
 
 void SkewHeap::insert(int data){
-
+  Node* newNode = new Node(data);
+  if (!m_heap){
+    m_heap = newNode;
+  }
+  else{
+    m_heap = mergeHelper(m_heap, newNode);
+  }
 }
 
 Node* SkewHeap::front() const{
@@ -40,25 +57,29 @@ void SkewHeap::removeTop(){
 }
 
 void SkewHeap::skewHeapMerge(SkewHeap& sh){
-  mergeHelper(m_heap, sh);
+  m_heap = mergeHelper(m_heap, sh.m_heap);
 } 
 
-void SkewHeap::mergeHelper(Node *curr, SkewHeap& sh){
+Node* SkewHeap::mergeHelper(Node *curr, Node *srcCurr){
   //if either is empty, return other
   //if curr is null, return sh
   //else return curr
+  if (!curr){
+    return srcCurr;
+  }
+  else if (!srcCurr){
+    return curr;
+  }
 
-  //make sure curr has higher priority
-  //if priority(curr) < priority(sh)
-  //swap(curr, sh)
+  if (priority(curr) < priority(srcCurr)){
+    swap(curr, srcCurr);
+  }
+
+  swap(curr->left, curr->right);
+
+  curr->left = mergeHelper(curr->left, srcCurr);
   
-  //switch left and right children of curr
-  //swap (curr->left, curr->right)
-
-  //merge curr left with sh, 
-  //new heap is left child of curr.
-
-  //don't have to do anything, all work is done to *this.
+  return curr;
 }
 
 void SkewHeap::inorder() const {
@@ -73,9 +94,9 @@ void SkewHeap::inorderHelper(Node *curr) const{
   inorderHelper(curr->left) ;
 
   if(curr->tagged_union == ISINT)
-    cout << curr->data_int << endl;
+    cout << curr->data_int;
   else
-    cout << curr->data_string << endl;
+    cout << curr->data_string;
 
   inorderHelper(curr->right);
   cout << ")" ;
@@ -93,7 +114,7 @@ void SkewHeap::dumpHelper(Node *curr) const{
 
   string val;
   if (curr->tagged_union == ISINT)
-    val = curr->data_int;
+    val = to_string(curr->data_int);
   else
     val = curr->data_string;
   
