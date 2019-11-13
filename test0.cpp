@@ -6,14 +6,14 @@ int PriorityCalc1(Node *);
 
 int main(){
   SkewHeap s(PriorityCalc1);
-  cout << "INSERTING 10 - 1" << endl;
-  for (int i = 10; i > 0; --i){
+  cout << "INSERTING 10 - 0" << endl;
+  for (int i = 10; i >= 0; --i){
     s.insert(i);
     s.inorder(); cout << endl;
   }
-  cout << "INSERTING STRING 'haha' " << endl;
-  s.insert("haha");
-  s.inorder(); 
+  
+  s.insert("Ha Ha I'm a String");
+  s.inorder(); cout << endl;
   s.dump();
   return 0;
 }

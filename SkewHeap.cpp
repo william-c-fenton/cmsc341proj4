@@ -5,7 +5,16 @@ SkewHeap::SkewHeap(pri_fn pri){
 }
 
 SkewHeap::~SkewHeap(){
+  makeEmpty(m_heap);
+}
 
+void SkewHeap::makeEmpty(Node *&curr) {
+  if(curr){
+    makeEmpty(curr->left);
+    makeEmpty(curr->right);
+    delete curr;
+    curr = nullptr;
+  }
 }
 
 const SkewHeap& SkewHeap::operator=(const SkewHeap& rhs){
@@ -53,6 +62,14 @@ Node* SkewHeap::front() const{
 }
 
 void SkewHeap::removeTop(){
+  Node *oldLeft = m_heap->left;
+  Node *oldRight = m_heap->right;
+  m_heap->left = nullptr;
+  m_heap->right = nullptr;
+
+  delete m_heap;
+
+  m_heap = mergeHelper(oldLeft, oldRight);
 
 }
 
@@ -105,7 +122,24 @@ void SkewHeap::inorderHelper(Node *curr) const{
 }
 
 void SkewHeap::dump() const{
-  dumpHelper(m_heap);
+  dumpOutput(m_heap);
+}
+
+void SkewHeap::dumpOutput(Node *curr) const{
+  if(curr == nullptr)
+    return ;
+
+  string val;
+  if (curr->tagged_union == ISINT)
+    val = to_string(curr->data_int);
+  else
+    val = curr->data_string;
+  
+  cout << "Data is:\t" << val << "\t\tPriority is:\t" << priority(curr) << endl;
+  cout << "left from " << priority(curr) << endl;
+  dumpOutput(curr->left);
+  cout << "right from " << priority(curr) << endl;
+  dumpOutput(curr->right);
 }
 
 void SkewHeap::dumpHelper(Node *curr) const{
