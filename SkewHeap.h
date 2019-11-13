@@ -94,11 +94,12 @@ private:
   Node *m_heap;          // Root pointer
   pri_fn priority;       // Current priority function
 
-  void dumpOutput(Node *curr) const;
+  void dumpOutput() const;
   void inorderHelper(Node *curr) const;
   void dumpHelper(Node *curr) const;
   Node* mergeHelper(Node* curr, Node* srcCurr);
   void makeEmpty(Node *&curr);
+  void makeCopy(Node *&curr, const Node *srcCurr);
 };
 
 #endif

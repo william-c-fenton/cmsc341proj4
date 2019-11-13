@@ -4,6 +4,45 @@ SkewHeap::SkewHeap(pri_fn pri){
   priority = pri;
 }
 
+const SkewHeap& SkewHeap::operator= (const SkewHeap& rhs){
+  makeEmpty(m_heap);
+  makeCopy(m_heap, rhs.front());
+  return *this;
+}
+
+SkewHeap::SkewHeap(const SkewHeap& rhs){
+  m_heap = nullptr;
+  priority = rhs.priority;
+  makeCopy(m_heap, rhs.m_heap);
+}
+
+void SkewHeap::makeCopy(Node *&curr, const Node *srcCurr){
+  if (srcCurr != nullptr){
+    Node *newNode;
+
+    if (srcCurr->tagged_union == ISINT){
+      int data = srcCurr->data_int;
+      newNode = new Node(data);
+
+      curr = newNode;
+
+      makeCopy(curr->left, srcCurr->left);
+      makeCopy(curr->right, srcCurr->right);
+    }
+    else{
+      string data = srcCurr->data_string;
+      newNode = new Node(data);
+
+      curr = newNode;
+
+      makeCopy(curr->left, srcCurr->left);
+      makeCopy(curr->right, srcCurr->right);
+    }
+    
+  }
+}
+
+
 SkewHeap::~SkewHeap(){
   makeEmpty(m_heap);
 }
@@ -17,16 +56,23 @@ void SkewHeap::makeEmpty(Node *&curr) {
   }
 }
 
-const SkewHeap& SkewHeap::operator=(const SkewHeap& rhs){
-
-}
-
 pri_fn SkewHeap::getPriFn() const {
   return priority;
 }
 
 void SkewHeap::setPriFn(pri_fn pri){
   priority = pri;
+  SkewHeap s2(*this);
+  makeEmpty(m_heap);
+  
+  while (!s2.empty()){
+    if (s2.front()->tagged_union == ISINT)
+      insert(s2.front()->data_int);
+    else
+      insert(s2.front()->data_string);
+    
+    s2.removeTop();
+  }
 }
 
 bool SkewHeap::empty() const{
@@ -122,24 +168,25 @@ void SkewHeap::inorderHelper(Node *curr) const{
 }
 
 void SkewHeap::dump() const{
-  dumpOutput(m_heap);
+
+  dumpOutput();
 }
 
-void SkewHeap::dumpOutput(Node *curr) const{
-  if(curr == nullptr)
-    return ;
+void SkewHeap::dumpOutput() const{
+  SkewHeap copy(*this);
+  while(!copy.empty()){
+    string val;
+    if (copy.front()->tagged_union == ISINT)
+      val = to_string(copy.front()->data_int);
+    else
+      val = copy.front()->data_string;
+    
+    cout << "Data is:\t" << val << "\t\tPriority is:\t" << priority(copy.front()) << endl;
 
-  string val;
-  if (curr->tagged_union == ISINT)
-    val = to_string(curr->data_int);
-  else
-    val = curr->data_string;
-  
-  cout << "Data is:\t" << val << "\t\tPriority is:\t" << priority(curr) << endl;
-  cout << "left from " << priority(curr) << endl;
-  dumpOutput(curr->left);
-  cout << "right from " << priority(curr) << endl;
-  dumpOutput(curr->right);
+    copy.removeTop();
+  }
+
+
 }
 
 void SkewHeap::dumpHelper(Node *curr) const{
