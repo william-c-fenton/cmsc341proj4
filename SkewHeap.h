@@ -97,7 +97,7 @@ private:
   void dumpOutput() const;
   void inorderHelper(Node *curr) const;
   void dumpHelper(Node *curr) const;
-  Node* mergeHelper(Node* curr, Node* srcCurr);
+  Node* mergeHelper(Node* &curr, Node* &srcCurr);
   void makeEmpty(Node *&curr);
   void makeCopy(Node *&curr, const Node *srcCurr);
 };

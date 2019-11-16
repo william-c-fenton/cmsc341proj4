@@ -64,9 +64,9 @@ int main() {
   
   SkewHeap s1(PriorityCalc1);
 
-  cout << "\nInserting 10..0 into skew heap:\n";
+  cout << "\nInserting 0..10 into skew heap:\n";
   
-  for(int i = 10; i >= 0; i--){
+  for(int i = 0; i <= 10; i++){
     s1.insert(i);
     s1.inorder(); cout << endl;
   }

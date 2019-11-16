@@ -1,6 +1,14 @@
 #include "TypedHeap.h"
 void TypedHeap::insertToHeaps(vector<string> vec){
-
+  for (int i = 0; i < vec.size(); i++){
+    int possibleInt = atoi(vec.at(i).c_str());
+    if (to_string(possibleInt).length() != vec.at(i).length()){
+      stringHeap.insert(vec.at(i));
+    }
+    else if (to_string(possibleInt).length() == vec.at(i).length()){
+      intHeap.insert(possibleInt);
+    }
+  }
 }
 
 void TypedHeap::combineHeaps(){
@@ -8,6 +16,8 @@ void TypedHeap::combineHeaps(){
 
   totalHeap.skewHeapMerge(stringHeap);
   totalHeap.skewHeapMerge(intHeap);
+
+  
 }
 
 void TypedHeap::printHeaps() const{
@@ -22,5 +32,7 @@ void TypedHeap::printHeaps() const{
 }
 
 void TypedHeap::changePriority(pri_fn pri){
-
+  intHeap.setPriFn(pri);
+  stringHeap.setPriFn(pri);
+  totalHeap.setPriFn(pri);
 }

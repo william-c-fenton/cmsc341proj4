@@ -121,9 +121,10 @@ void SkewHeap::removeTop(){
 
 void SkewHeap::skewHeapMerge(SkewHeap& sh){
   m_heap = mergeHelper(m_heap, sh.m_heap);
+  sh.m_heap = nullptr;
 } 
 
-Node* SkewHeap::mergeHelper(Node *curr, Node *srcCurr){
+Node* SkewHeap::mergeHelper(Node *&curr, Node *&srcCurr){
   //if either is empty, return other
   //if curr is null, return sh
   //else return curr
