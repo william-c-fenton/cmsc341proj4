@@ -120,6 +120,9 @@ void SkewHeap::removeTop(){
 }
 
 void SkewHeap::skewHeapMerge(SkewHeap& sh){
+  if (sh.getPriFn() != getPriFn())
+    throw std::domain_error("Attempt to merge with diff priority funcs");
+
   m_heap = mergeHelper(m_heap, sh.m_heap);
   sh.m_heap = nullptr;
 } 
@@ -169,8 +172,8 @@ void SkewHeap::inorderHelper(Node *curr) const{
 }
 
 void SkewHeap::dump() const{
-
-  dumpOutput();
+  dumpHelper(m_heap);
+  //dumpOutput();
 }
 
 void SkewHeap::dumpOutput() const{
