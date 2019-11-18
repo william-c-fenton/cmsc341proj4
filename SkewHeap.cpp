@@ -172,8 +172,7 @@ void SkewHeap::inorderHelper(Node *curr) const{
 }
 
 void SkewHeap::dump() const{
-  dumpHelper(m_heap);
-  //dumpOutput();
+  dumpOutput();
 }
 
 void SkewHeap::dumpOutput() const{
